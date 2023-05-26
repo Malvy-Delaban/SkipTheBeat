@@ -6,8 +6,8 @@ public abstract class ProjectileBehavior : MonoBehaviour
 {
     [SerializeField] protected float projectileSpeed = 10f;
     protected Transform playerTransform;
-    private float verticalBounds = 30;
-    private float horizontalBounds = 30;
+    private float verticalBounds = 100;
+    private float horizontalBounds = 100;
 
     public virtual void Start()
     {

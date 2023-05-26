@@ -9,9 +9,8 @@ public class ProjectileSpawner : MonoBehaviour
     [SerializeField] private GameObject concentricProjectile;
     [SerializeField] private GameObject horizontalDangerZone;
     [SerializeField] private GameObject projectilePrefab;
-    [SerializeField] private float cooldown = 0.05f;
-    [SerializeField] private float currentCooldown = 0f;
     private int spawnNumber = 8;
+    private bool isPatternStarted = false;
 
 
     // Start is called before the first frame update
@@ -23,9 +22,10 @@ public class ProjectileSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Fire2") == true) {
+        if (Input.GetButtonDown("Fire2") == true && !isPatternStarted) {
+            isPatternStarted = true;
             SpawnHorizontalDangerZone();
-            Invoke("SpawnPlatforms", 0.1f);
+            Invoke("SpawnPlatforms", 0f);
         }
     }
 
@@ -38,16 +38,15 @@ public class ProjectileSpawner : MonoBehaviour
     }
 
     void SpawnHorizontalDangerZone() {
-        Instantiate(horizontalDangerZone, new Vector3(0f, -4f, 10f), Quaternion.identity);
-        Instantiate(horizontalDangerZone, new Vector3(0f, 3f, 10f), Quaternion.identity);
+        Instantiate(horizontalDangerZone, new Vector3(0f, -5.5f, 10f), Quaternion.identity);
+        // Instantiate(horizontalDangerZone, new Vector3(0f, 3f, 10f), Quaternion.identity);
     }
 
     void SpawnPlatforms() {
-        var randomNumber = Random.Range(1f, 1.8f);
+        var randomNumber = Random.Range(0.8f, 1.4f);
 
-        var plat = Instantiate(traversablePlatform, new Vector3(30f, -2f, 0f), Quaternion.identity);
+        var plat = Instantiate(traversablePlatform, new Vector3(30f, -3.5f, 0f), Quaternion.identity);
         plat.transform.localScale = new Vector3(8f + (2f * Mathf.InverseLerp(1f, 1.8f, randomNumber)), 1, 1);
-        print(0.8f + (0.2f * Mathf.InverseLerp(1f, 1.8f, randomNumber)));
         Invoke("SpawnPlatforms", randomNumber);
     }
 }

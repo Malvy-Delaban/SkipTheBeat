@@ -5,20 +5,15 @@ using UnityEngine;
 public class DangerZoneBehavior : MonoBehaviour
 {
     private SpriteRenderer sr;
-    private float colorGradientTimer = 0f;
     private float spawnedSince = 0f;
     public bool isEffective = false;
     private bool nextAlphaValueBlink = false; // false = 0, true = 1
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         sr = gameObject.GetComponent<SpriteRenderer>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         if (!isEffective)
             TimerDangerZone();
         else
@@ -27,13 +22,14 @@ public class DangerZoneBehavior : MonoBehaviour
 
     void TimerDangerZone() {
         spawnedSince += Time.deltaTime;
-        if (spawnedSince > 2f)
+        if (spawnedSince > 2.8f)
             MakeEffective();
         BlinkingEffect();
     }
 
     void MakeEffective() {
         isEffective = true;
+        GetComponent<DamagableObjects>().MakeEffective(true);
         ChangAlphaColor(1f);
         sr.color = Color.red;
     }
@@ -61,7 +57,7 @@ public class DangerZoneBehavior : MonoBehaviour
             nextAlphaValueBlink = true;
             ChangAlphaColor(0.02f);
         } else {
-            AddToAlphaColor(Time.deltaTime * (nextAlphaValueBlink ? 3f : -3f));
+            AddToAlphaColor(Time.deltaTime * (nextAlphaValueBlink ? 5f : -5f));
         }
     }
 }

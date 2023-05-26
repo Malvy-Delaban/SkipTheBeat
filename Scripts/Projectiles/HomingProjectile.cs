@@ -12,6 +12,7 @@ public class HomingProjectile : ProjectileBehavior
     private float currentSpeed;
     private float refSpeed = 0f;
     private float timeToReachMaxSpeed = 0.5f;
+    private bool isEffective = false;
 
     public override void Start() {
         base.Start();
@@ -29,6 +30,10 @@ public class HomingProjectile : ProjectileBehavior
             currentTimerBeforeLockingPosition -= Time.deltaTime;
         } else {
             currentSpeed = Mathf.SmoothDamp(currentSpeed, projectileSpeed, ref refSpeed, timeToReachMaxSpeed);
+            if (!isEffective) {
+                isEffective = true;
+                GetComponent<DamagableObjects>().MakeEffective(true);
+            }
         }
     }
 

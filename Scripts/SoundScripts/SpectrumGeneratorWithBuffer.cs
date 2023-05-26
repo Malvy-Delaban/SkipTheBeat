@@ -22,21 +22,22 @@ public class SpectrumGeneratorWithBuffer : MonoBehaviour
     private static float[] scaledHighestOfBand = new float[8]; // Internal variable used to to know the highest beat received in this band of frequency
     private static float[] bufferDecrease = new float[8]; // Internal variable used to smoothly decrease the buffered frequency band
 
+    void Awake() {
+        myAudioSource = GetComponent<AudioSource>();
+    }
+
     void Start() {
-        GetAudioSource();
         SetDefaultHighest();
     }
 
     void Update() {
-        GetSpectrumData();
-        GenerateNormalizedBands();
-        GenerateBufferedBands();
-        GenerateScaledBands();
-        GenerateAmplitude();
-    }
-
-    void GetAudioSource() {
-        myAudioSource = GetComponent<AudioSource>();
+        if (myAudioSource) {
+            GetSpectrumData();
+            GenerateNormalizedBands();
+            GenerateBufferedBands();
+            GenerateScaledBands();
+            GenerateAmplitude();
+        }
     }
 
     void SetDefaultHighest() {
@@ -78,16 +79,16 @@ public class SpectrumGeneratorWithBuffer : MonoBehaviour
                 bufferDecrease[i] = 0.005f;
             } else {
                 bufferedFreqBand[i] -= bufferDecrease[i];
-                bufferDecrease[i] *= 1.2f;
+                bufferDecrease[i] *= 1.1f;
             }
         }
     }
 
     void GenerateScaledBands() {
         for (int i = 0; i < 8; i++) {
-            if (freqBand[i] > scaledHighestOfBand[i])
-                scaledHighestOfBand[i] = freqBand[i];
-            scaledFreqBand[i] = (freqBand[i] / scaledHighestOfBand[i]);
+            if (normalizedFreqBand[i] > scaledHighestOfBand[i])
+                scaledHighestOfBand[i] = normalizedFreqBand[i];
+            scaledFreqBand[i] = (normalizedFreqBand[i] / scaledHighestOfBand[i]);
             scaledBuffFreqBand[i] = (bufferedFreqBand[i] / scaledHighestOfBand[i]);
         }
     }

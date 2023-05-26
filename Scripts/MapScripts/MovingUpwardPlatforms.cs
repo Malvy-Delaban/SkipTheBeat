@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovingPlatforms : MonoBehaviour
+public class MovingUpwardPlatforms : MonoBehaviour
 {
     [SerializeField] private float speed = 25f;
 
@@ -15,6 +15,6 @@ public class MovingPlatforms : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector2.left * Time.deltaTime * speed);
+        transform.Translate(Vector2.up * Time.deltaTime * speed);
     }
 }

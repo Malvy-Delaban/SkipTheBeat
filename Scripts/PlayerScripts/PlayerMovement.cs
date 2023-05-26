@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -11,7 +12,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask mapLayer;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private GameObject platformCheck;
-    [SerializeField] private SpriteRenderer sr;
+    [SerializeField] private Image dashIndicator;
 
     // GroundCheck variables
     private float widthGroundCheck = 0.5f;
@@ -74,7 +75,8 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void UpdateUi() {
-        sr.color = (timeBeforeNextDash <= 0 ? new Color32(136, 190, 214, 255) : new Color32(0, 80, 100, 255));
+        dashIndicator.fillAmount = timeBeforeNextDash / cooldownDash;
+        // sr.color = (timeBeforeNextDash <= 0 ? new Color32(136, 190, 214, 255) : new Color32(0, 80, 100, 255));
     }
 
     void FixedUpdate() {
